@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <title>FrashPal - Мой холодильник</title>
+        <style>
+            .expired {
+                background-color: #f88;
+            }
+            .soon {
+                background-color: #ffec99;
+            }
+            .ok {
+                background-color: #cfc;
+            }
+            table,
+            th,
+            td {
+                border: 1px solid #333;
+                border-collapse: collapse;
+                padding: 6px;
+            }
+            .bju-info {
+                font-size: 0.9em;
+                color: #555;
+            }
+            .bju-button {
+                font-size: 0.9em;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Привет, {{ user }}!</h1>
+        <a href="{{ url_for('logout') }}">Выйти</a>
+
+        <h2>Добавить продукт</h2>
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li style="color: red">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
+        <form method="post">
+            <label
+                >Название:<br /><input
+                    type="text"
+                    name="name"
+                    required /></label
+            ><br />
+            <label
+                >Количество (шт или г):<br /><input
+                    type="number"
+                    name="amount"
+                    min="1"
+                    required /></label
+            ><br />
+            <label
+                >Срок годности:<br /><input
+                    type="date"
+                    name="expiry"
+                    required /></label
+            ><br />
+            <label
+                >Категория:<br />
+                <select name="category" required>
+                    {% for cat in categories %}
+                    <option value="{{ cat }}">{{ cat.capitalize() }}</option>
+                    {% endfor %}
+                </select> </label
+            ><br />
+            <button type="submit">Добавить</button>
+        </form>
+
+        <h2>Список продуктов</h2>
+        <table>
+            <tr>
+                <th>Название</th>
+                <th>Количество</th>
+                <th>Срок годности</th>
+                <th>Категория</th>
+                <th>Инфо</th>
+            </tr>
+            {% for product in products %}
+            <tr class="{{ product.color }}">
+                <td>{{ product.name }}</td>
+                <td>{{ product.amount }}</td>
+                <td>{{ product.expiry }}</td>
+                <td>{{ product.category.capitalize() }}</td>
+                <td>
+                    {% if product.bju %}
+                    <div class="bju-info">{{ product.bju }}</div>
+                    {% else %}
+                    <a
+                        href="{{ url_for('add_bju', product=product.name.split('(')[0], category=product.category) }}"
+                        class="bju-button"
+                        >Добавить БЖУ</a
+                    >
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Добавить БЖУ — {{ product }}</title>
+    </head>
+    <body>
+        <h1>Добавить данные БЖУ для {{ product }}</h1>
+        <form method="post">
+            <input type="hidden" name="category" value="{{ category }}" />
+            <input type="hidden" name="name" value="{{ product }}" />
+            <label
+                >Белки (г):<br /><input
+                    type="number"
+                    name="protein"
+                    min="0"
+                    step="0.1"
+                    required /></label
+            ><br />
+            <label
+                >Жиры (г):<br /><input
+                    type="number"
+                    name="fat"
+                    min="0"
+                    step="0.1"
+                    required /></label
+            ><br />
+            <label
+                >Углеводы (г):<br /><input
+                    type="number"
+                    name="carbs"
+                    min="0"
+                    step="0.1"
+                    required /></label
+            ><br />
+            <label
+                >Калории (ккал):<br /><input
+                    type="number"
+                    name="calories"
+                    min="0"
+                    step="1"
+                    required /></label
+            ><br />
+            <button type="submit">Сохранить</button>
+        </form>
+        <p><a href="{{ url_for('dashboard') }}">Назад</a></p>
+    </body>
+</html>
